@@ -1,12 +1,12 @@
 // Elements
 const welcomeScreen = document.getElementById(`welcome-screen`);
-const gameScreen = ;
-const startGameButton = ;
-const userName = ;
-const userSelection = ;
-const goButton = ;
-const scoreParagraph = ;
-const gameHistoryParagraph = ;
+const gameScreen = document.querySelector(`#game-screen`);
+const startGameButton = document.getElementById(`start-game-button`);
+const userName = document.getElementById(`user-name`);
+const userSelection = document.getElementById(`user-selection`);
+const goButton = document.getElementById(`go-button`);
+const scoreParagraph = document.getElementById(`score-paragraph`);
+const gameHistoryParagraph = document.getElementById(`game-history-paragraph`);
 
 // instantiate the game object from the `RockPaperScissors` class.
 let game;
@@ -16,22 +16,36 @@ gameScreen.classList.add(`d-none`);
 
 // updateScoreTallyUI
 function updateScoreTallyUI(){
-
+  const username = userName.value;
+  let userScore = game.score.user;
+  let cpuScore = game.score.cpu;
+  scoreParagraph.innerText = username +': '+ userScore + ' v CPU: ' + cpuScore;
 }
 
 // updateGameHistoryUI
 function updateGameHistoryUI(){
+  let game = [gameHistoryParagraph.innerText];
+  gameHistoryParagraph.innerHTML = game.gameHistoryLog;
 
+  console.log(game);
 }
 
 // start-game-button EventListener
 startGameButton.addEventListener(`click`, function () {
-  const username = 
-  game = new RockPaperScissors(userName);
+  const username = userName.value;
+  if(username.length == 0){
+    alert("You have to input your name!")
+  }else{
+    game = new RockPaperScissors(username);
+    gameScreen.classList.add("d-block")
+  }
   // Complete
 });
 
 // go-button EventListener
-startGameButton.addEventListener(`click`, function () {
-  
+goButton.addEventListener(`click`, function () {
+  userselection = userSelection.value;
+  game.play(userselection);
+  updateScoreTallyUI();
+  updateGameHistoryUI();
 });
