@@ -14,8 +14,8 @@ class RockPaperScissors {
    */
   generateCPUResponse(){
     const acceptedValues = [ `rock`, `paper`, `scissors` ];
-    Math.random(0, 1, 2); 
-      return acceptedValues;
+    let index = Math.floor(Math.random() * Math.floor(acceptedValues.length));
+    return acceptedValues[index];
   }
   /**
    * returns one of the following values: `win`, `lose`, `tie`
@@ -33,38 +33,17 @@ class RockPaperScissors {
    * @param {string} cpuSelection computer selection. Can only be one of the following values [`rock`, `paper`, `scissors`]
    */
   determineWinner(userSelection, cpuSelection){
-    //Having a tie
-    if (userSelection === cpuSelection){
-      return "It's a tie!";
-    }
-    //If the user types in scissors
-  else if(userSelection === "scissors"){
-    if(cpuSelection === "rock"){
-      return "Computer wins! Rock kills scissors.";
-    }
-    else if(cpuSelection ==="paper"){
-      return "User wins! Scissors kill paper.";
-    }
-  }
-    //If the user types in paper
-  else if(userSelection === "paper"){
-    if(cpuSelection === "rock"){
-      return "User wins! Paper kills rock.";
-    }
-    else if(cpuSelection === "scissors"){
-      return "Computer wins! Scissors kill paper.";
-    }
-  }
-    //If the user types in rock
-  else if(userSelection === "rock"){
-    if(cpuSelection === "paper"){
-      return "Computer wins! Paper kills rock.";
-    }
-    else if(cpuSelection === "scissors"){
-      return "User wins! Rock kills scissors."
-    };
-  }
 
+    let outcome = `none`;
+    if (userSelection === cpuSelection) {
+      outcome = `tie`;
+    } else if ((userSelection === `rock` && cpuSelection === `scissors`) || (userSelection === `paper` && cpuSelection === `rock`) || (userSelection === `scissors` && cpuSelection === `paper`)) 
+    {
+      outcome = `win`;
+    } else {
+      outcome = `lose`;
+    }
+    return outcome;
   }
 
   /**
@@ -72,12 +51,26 @@ class RockPaperScissors {
    * @param {string} userSelection user selection. Can only be one of the following values [`rock`, `paper`, `scissors`]
    */
   play(userSelection){
-    // if the user won the round
-    this.score.user ++;
-    // if the user cpu the round
-    this.score.cpu ++;
-    this.gameHistoryLog.push(`Jeanette selected Scissors, CPU selected Paper: Jeanette wins wins`);
+    this.round.round++;
+    let cpuSelection = this.generateCPUResponse();
 
+    let outcome = this.determineWinner(userSelection, cpuSelection);
+
+    if (outcome === `win`) {
+      this.score.user++; 
+    } else if (outcome === `lose`) {
+      this.score.cpu++;
+    }
+
+    this.gameHistoryLog.push(`[Round ${this.round.round}] - ${this.username.value} selected ${userSelection}, CPU selected ${cpuSelection}: ${this.username.value} ${outcome}s <br>`);
   }
 
+  reset() {
+    this.score = {
+      user: 0,
+      cpu:0 
+    },
+    this.username = ``;
+    this.gameHistoryLog = [];
+  }
 }

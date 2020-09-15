@@ -16,35 +16,35 @@ gameScreen.classList.add(`d-none`);
 
 // updateScoreTallyUI
 function updateScoreTallyUI(){
-  const username = userName.value;
-  let userScore = game.score.user;
-  let cpuScore = game.score.cpu;
-  scoreParagraph.innerText = username +': '+ userScore + ' v CPU: ' + cpuScore;
+  scoreParagraph.innerHTML = `<p>${userName.value}: ${game.score.user} v CPU: ${game.score.cpu}</p>`;
 }
 
 // updateGameHistoryUI
 function updateGameHistoryUI(){
-  let game = [gameHistoryParagraph.innerText];
+  let game = [ gameHistoryParagraph.innerText ];
   gameHistoryParagraph.innerHTML = game.gameHistoryLog;
-
-  console.log(game);
 }
 
 // start-game-button EventListener
-startGameButton.addEventListener(`click`, function () {
-  const username = userName.value;
-  if(username.length == 0){
-    alert("You have to input your name!")
-  }else{
-    game = new RockPaperScissors(username);
-    gameScreen.classList.add("d-block")
-  }
+startGameButton.addEventListener(`click`, function (event) {
+  event.preventDefault();
+  const username =
+  // eslint-disable-next-line no-undef
+  game = new RockPaperScissors(userName);
+
+  welcomeScreen.classList.add(`d-none`);
+  gameScreen.classList.remove(`d-none`);
+
   // Complete
 });
 
+
+
 // go-button EventListener
 goButton.addEventListener(`click`, function () {
+  // eslint-disable-next-line no-undef
   userselection = userSelection.value;
+  // eslint-disable-next-line no-undef
   game.play(userselection);
   updateScoreTallyUI();
   updateGameHistoryUI();
